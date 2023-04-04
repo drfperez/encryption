@@ -231,27 +231,27 @@ def blowfish_decrypt():
     unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
 
 # Display the decrypted text to the user
-output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
+    output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
 
 #Generate a key and IV for Blowfish decryption
-key = hashes.Hash(hashes.SHA256())
-key.update(key_entry.get().encode())
-key = key.finalize()[:16]
-iv = hashes.Hash(hashes.SHA256())
-iv.update(text_entry.get().encode())
-iv = iv.finalize()[:8]
+    key = hashes.Hash(hashes.SHA256())
+    key.update(key_entry.get().encode())
+    key = key.finalize()[:16]
+    iv = hashes.Hash(hashes.SHA256())
+    iv.update(text_entry.get().encode())
+    iv = iv.finalize()[:8]
 
 #Decrypt the text using the key and IV
-cipher = Cipher(algorithms.Blowfish(key), modes.CBC(iv))
-decryptor = cipher.decryptor()
-decrypted_text = decryptor.update(text) + decryptor.finalize()
+    cipher = Cipher(algorithms.Blowfish(key), modes.CBC(iv))
+    decryptor = cipher.decryptor()
+    decrypted_text = decryptor.update(text) + decryptor.finalize()
 
 #Remove the PKCS#7 padding from the decrypted plaintext
-unpadder = padding.PKCS7(algorithms.Blowfish.block_size).unpadder()
-unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
+    unpadder = padding.PKCS7(algorithms.Blowfish.block_size).unpadder()
+    unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
 
 #Display the decrypted text to the user
-output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
+    output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
 
 #Create a Tkinter window
 window = Tk()
@@ -293,4 +293,3 @@ decrypt_button.pack()
 
 #Run the Tkinter main loop
 window.mainloop()
-
