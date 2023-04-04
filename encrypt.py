@@ -92,148 +92,143 @@ def aes_encrypt():
 # Function to decrypt the text using AES
 def aes_decrypt():
 # Get the text and key from the user input
-text = text_entry.get().encode()
-key = key_entry.get().encode()
+    text = text_entry.get().encode()
+    key = key_entry.get().encode()
 
 
 # Generate a key and IV for AES decryption
-key = hashes.Hash(hashes.SHA256())
-key.update(key_entry.get().encode())
-key = key.finalize()
-iv = hashes.Hash(hashes.SHA256())
-iv.update(text_entry.get().encode())
-iv = iv.finalize()[:16]
+    key = hashes.Hash(hashes.SHA256())
+    key.update(key_entry.get().encode())
+    key = key.finalize()
+    iv = hashes.Hash(hashes.SHA256())
+    iv.update(text_entry.get().encode())
+    iv = iv.finalize()[:16]
 
 # Decrypt the text using the key and IV
-cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
-decryptor = cipher.decryptor()
-decrypted_text = decryptor.update(text) + decryptor.finalize()
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
+    decryptor = cipher.decryptor()
+    decrypted_text = decryptor.update(text) + decryptor.finalize()
 
 # Remove the PKCS#7 padding from the decrypted plaintext
-unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
-unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
+    unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
+    unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
 
 # Display the decrypted text to the user
-output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
-Function to encrypt the text using TripleDES
+    output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
+# Function to encrypt the text using TripleDES
 def tripledes_encrypt():
 # Get the text and key from the user input
-text = text_entry.get().encode()
-key = key_entry.get().encode()
+    text = text_entry.get().encode()
+    key = key_entry.get().encode()
 
 
 # Generate a key and IV for TripleDES encryption
-key = hashes.Hash(hashes.SHA256())
-key.update(key_entry.get().encode())
-key = key.finalize()[:24]
-iv = hashes.Hash(hashes.SHA256())
-iv.update(text_entry.get().encode())
-iv = iv.finalize()[:8]
+    key = hashes.Hash(hashes.SHA256())
+    key.update(key_entry.get().encode())
+    key = key.finalize()[:24]
+    iv = hashes.Hash(hashes.SHA256())
+    iv.update(text_entry.get().encode())
+    iv = iv.finalize()[:8]
 
 # Apply PKCS#7 padding to the plaintext
-padder = padding.PKCS7(algorithms.TripleDES.block_size).padder()
-padded_text = padder.update(text) + padder.finalize()
+    padder = padding.PKCS7(algorithms.TripleDES.block_size).padder()
+    padded_text = padder.update(text) + padder.finalize()
 
 # Encrypt the text using the key and IV
-cipher = Cipher(algorithms.TripleDES(key), modes.CBC(iv))
-encryptor = cipher.encryptor()
-encrypted_text = encryptor.update(padded_text) + encryptor.finalize()
+    cipher = Cipher(algorithms.TripleDES(key), modes.CBC(iv))
+    encryptor = cipher.encryptor()
+    encrypted_text = encryptor.update(padded_text) + encryptor.finalize()
 
 # Display the encrypted text to the user
-output_label.config(text=f"Encrypted text: {encrypted_text}")
-Function to decrypt the text using TripleDES
+    output_label.config(text=f"Encrypted text: {encrypted_text}")
+#Function to decrypt the text using TripleDES
 def tripledes_decrypt():
 # Get the text and key from the user input
-text = text_entry.get().encode()
-key = key_entry.get().encode()
+    text = text_entry.get().encode()
+    key = key_entry.get().encode()
 
 # Generate a key and IV for TripleDES decryption
-key = hashes.Hash(hashes.SHA256())
-key.update(key_entry.get().encode())
-key = key.finalize()[:24]
-iv = hashes.Hash(hashes.SHA256())
-iv.update(text_entry.get().encode())
-iv = iv.finalize()[:8]
+    key = hashes.Hash(hashes.SHA256())
+    key.update(key_entry.get().encode())
+    key = key.finalize()[:24]
+    iv = hashes.Hash(hashes.SHA256())
+    iv.update(text_entry.get().encode())
+    iv = iv.finalize()[:8]
 
 # Decrypt the text using the key and IV
-cipher = Cipher(algorithms.TripleDES(key), modes.CBC(iv))
-decryptor = cipher.decryptor()
-decrypted_text = decryptor.update(text) + decryptor.finalize()
+    cipher = Cipher(algorithms.TripleDES(key), modes.CBC(iv))
+    decryptor = cipher.decryptor()
+    decrypted_text = decryptor.update(text) + decryptor.finalize()
 
 # Remove the PKCS#7 padding from the decrypted plaintext
-unpadder = padding.PKCS7(algorithms.TripleDES.block_size).unpadder()
-unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
+    unpadder = padding.PKCS7(algorithms.TripleDES.block_size).unpadder()
+    unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
 
 # Display the decrypted text to the user
-output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
-Function to encrypt the text using Blowfish
+    output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
+#Function to encrypt the text using Blowfish
+
 
 def blowfish_encrypt():
 # Get the text and key from the user input
-text = text_entry.get().encode()
-key = key_entry
-
-def blowfish_encrypt():
-# Get the text and key from the user input
-text = text_entry.get().encode()
-key = key_entry.get().encode()
-
+    text = text_entry.get().encode()
+    key = key_entry.get().encode()
 
 # Generate a key and IV for Blowfish encryption
-key = hashes.Hash(hashes.SHA256())
-key.update(key_entry.get().encode())
-key = key.finalize()[:16]
-iv = hashes.Hash(hashes.SHA256())
-iv.update(text_entry.get().encode())
-iv = iv.finalize()[:8]
+    key = hashes.Hash(hashes.SHA256())
+    key.update(key_entry.get().encode())
+    key = key.finalize()[:16]
+    iv = hashes.Hash(hashes.SHA256())
+    iv.update(text_entry.get().encode())
+    iv = iv.finalize()[:8]
 
 # Apply PKCS#7 padding to the plaintext
-padder = padding.PKCS7(algorithms.Blowfish.block_size).padder()
-padded_text = padder.update(text) + padder.finalize()
+    padder = padding.PKCS7(algorithms.Blowfish.block_size).padder()
+    padded_text = padder.update(text) + padder.finalize()
 
 # Encrypt the text using the key and IV
-cipher = Cipher(algorithms.Blowfish(key), modes.CBC(iv))
-encryptor = cipher.encryptor()
-encrypted_text = encryptor.update(padded_text) + encryptor.finalize()
+    cipher = Cipher(algorithms.Blowfish(key), modes.CBC(iv))
+    encryptor = cipher.encryptor()
+    encrypted_text = encryptor.update(padded_text) + encryptor.finalize()
 
 # Display the encrypted text to the user
-output_label.config(text=f"Encrypted text: {encrypted_text}")
-Function to decrypt the text using Blowfish
+    output_label.config(text=f"Encrypted text: {encrypted_text}")
+#Function to decrypt the text using Blowfish
 def blowfish_decrypt():
 # Get the text and key from the user input
-text = text_entry.get().encode()
-key = key_entry.get().encode()
+    text = text_entry.get().encode()
+    key = key_entry.get().encode()
 
 
 # Generate a key and IV for Blowfish decryption
-key = hashes.Hash(hashes.SHA256())
-key.update(key_entry.get().encode())
-key = key.finalize()[:16]
-iv = hashes.Hash(hashes.SHA256())
-iv.update(text_entry.get().encode())
-iv = iv.finalize()[:8]
+    key = hashes.Hash(hashes.SHA256())
+    key.update(key_entry.get().encode())
+    key = key.finalize()[:16]
+    iv = hashes.Hash(hashes.SHA256())
+    iv.update(text_entry.get().encode())
+    iv = iv.finalize()[:8]
 
 # Decrypt the text using the key and IV
-cipher = Cipher(algorithms.Blowfish(key), modes.CBC(iv))
-decryptor = cipher.decryptor()
-decrypted_text = decryptor.update(text) + decryptor.finalize()
+    cipher = Cipher(algorithms.Blowfish(key), modes.CBC(iv))
+    decryptor = cipher.decryptor()
+    decrypted_text = decryptor.update(text) + decryptor.finalize()
 
 # Remove the PKCS#7 padding from the decrypted plaintext
-unpadder = padding.PKCS7(algorithms.Blowfish.block_size).unpadder()
-unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
+    unpadder = padding.PKCS7(algorithms.Blowfish.block_size).unpadder()
+    unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
 
 # Display the decrypted text to the user
-output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
+    output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
 
 
 # Decrypt the text using the key and IV
-cipher = Cipher(algorithms.Blowfish(key), modes.CBC(iv))
-decryptor = cipher.decryptor()
-decrypted_text = decryptor.update(text) + decryptor.finalize()
+    cipher = Cipher(algorithms.Blowfish(key), modes.CBC(iv))
+    decryptor = cipher.decryptor()
+    decrypted_text = decryptor.update(text) + decryptor.finalize()
 
 # Remove the PKCS#7 padding from the decrypted plaintext
-unpadder = padding.PKCS7(algorithms.Blowfish.block_size).unpadder()
-unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
+    unpadder = padding.PKCS7(algorithms.Blowfish.block_size).unpadder()
+    unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
 
 # Display the decrypted text to the user
 output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
