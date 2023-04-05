@@ -1,16 +1,15 @@
-# Vigenere Cipher
-
 def generate_key(message, key):
-    key = list(key)
-    if len(message) == len(key):
-        return(key)
-    else:
-        for i in range(len(message) - len(key)):
-            key.append(key[i % len(key)])
-    return("" . join(key))
+    key = key.upper()
+    key = [c for c in key if c.isalpha()]
+    if len(key) == 0:
+        raise ValueError("Key must contain alphabetical characters")
+    if len(message) > len(key):
+        key = key * ((len(message) // len(key)) + 1)
+    return "".join(key)[:len(message)]
 
 
 def encrypt(message, key):
+    key = generate_key(message, key)
     result = ""
     for i in range(len(message)):
         char = message[i]
@@ -23,6 +22,7 @@ def encrypt(message, key):
 
 
 def decrypt(message, key):
+    key = generate_key(message, key)
     result = ""
     for i in range(len(message)):
         char = message[i]
@@ -45,14 +45,16 @@ while True:
         continue
     
     message = input("Enter message: ").upper().replace(" ", "")
-    key = input("Enter key: ").upper()
+    key = input("Enter key: ")
     
-    if choice == '1':
-        key = generate_key(message, key)
-        print("Encrypted message: ", encrypt(message, key))
-    else:
-        key = generate_key(message, key)
-        print("Decrypted message: ", decrypt(message, key))
+    try:
+        if choice == '1':
+            print("Encrypted message: ", encrypt(message, key))
+        else:
+            print("Decrypted message: ", decrypt(message, key))
+    except ValueError as e:
+        print("Error: ", str(e))
+        continue
     
     response = input("Would you like to continue? (y/n): ")
     if response.lower() != 'y':
