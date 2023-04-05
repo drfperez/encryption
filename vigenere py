@@ -1,0 +1,59 @@
+# Vigenere Cipher
+
+def generate_key(message, key):
+    key = list(key)
+    if len(message) == len(key):
+        return(key)
+    else:
+        for i in range(len(message) - len(key)):
+            key.append(key[i % len(key)])
+    return("" . join(key))
+
+
+def encrypt(message, key):
+    result = ""
+    for i in range(len(message)):
+        char = message[i]
+        if char.isalpha():
+            temp = chr((ord(char) + ord(key[i])) % 26 + 65)
+            result += temp
+        else:
+            result += char
+    return result
+
+
+def decrypt(message, key):
+    result = ""
+    for i in range(len(message)):
+        char = message[i]
+        if char.isalpha():
+            temp = chr((ord(char) - ord(key[i]) + 26) % 26 + 65)
+            result += temp
+        else:
+            result += char
+    return result
+
+
+# Main code
+while True:
+    print("\nWhat would you like to do?")
+    print("1. Encrypt a message")
+    print("2. Decrypt a message")
+    choice = input("Enter '1' or '2': ")
+    if choice not in ['1', '2']:
+        print("Invalid choice. Please enter '1' or '2'.")
+        continue
+    
+    message = input("Enter message: ").upper().replace(" ", "")
+    key = input("Enter key: ").upper()
+    
+    if choice == '1':
+        key = generate_key(message, key)
+        print("Encrypted message: ", encrypt(message, key))
+    else:
+        key = generate_key(message, key)
+        print("Decrypted message: ", decrypt(message, key))
+    
+    response = input("Would you like to continue? (y/n): ")
+    if response.lower() != 'y':
+        break
