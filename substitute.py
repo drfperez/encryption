@@ -12,8 +12,10 @@ def generate_key(user_key):
 
 def encrypt(plaintext, key):
     """Encrypt the plaintext using the provided key."""
-    ciphertext = []
+    print("Generating key from user-provided key...")
     key = generate_key(key)
+    print("Key: ", key)
+    ciphertext = []
     for letter in plaintext:
         if letter.isalpha():
             index = string.ascii_lowercase.index(letter.lower())
@@ -23,12 +25,17 @@ def encrypt(plaintext, key):
                 ciphertext.append(key[index])
         else:
             ciphertext.append(letter)
-    return ''.join(ciphertext)
+    ciphertext = ''.join(ciphertext)
+    print("Plaintext: ", plaintext)
+    print("Ciphertext: ", ciphertext)
+    return ciphertext
 
 def decrypt(ciphertext, key):
     """Decrypt the ciphertext using the provided key."""
-    plaintext = []
+    print("Generating key from user-provided key...")
     key = generate_key(key)
+    print("Key: ", key)
+    plaintext = []
     for letter in ciphertext:
         if letter.isalpha():
             index = key.index(letter.lower())
@@ -38,7 +45,10 @@ def decrypt(ciphertext, key):
                 plaintext.append(string.ascii_lowercase[index])
         else:
             plaintext.append(letter)
-    return ''.join(plaintext)
+    plaintext = ''.join(plaintext)
+    print("Ciphertext: ", ciphertext)
+    print("Plaintext: ", plaintext)
+    return plaintext
 
 while True:
     choice = input("Enter 1 to encrypt or 2 to decrypt: ")
@@ -46,11 +56,11 @@ while True:
         plaintext = input("Enter plaintext to encrypt: ")
         key = input("Enter key: ")
         ciphertext = encrypt(plaintext, key)
-        print("Ciphertext:", ciphertext)
+        print("Final ciphertext: ", ciphertext)
     elif choice == '2':
         ciphertext = input("Enter ciphertext to decrypt: ")
         key = input("Enter key: ")
         plaintext = decrypt(ciphertext, key)
-        print("Plaintext:", plaintext)
+        print("Final plaintext: ", plaintext)
     else:
         print("Invalid choice. Please try again.")
