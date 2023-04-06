@@ -75,58 +75,55 @@ def aes_encrypt():
 
     # Generate a key and IV for AES encryption
     key_hash = hashes.Hash(hashes.SHA256())
-    key_hash.update(key_entry.get().encode())
+    key_hash.update(key)
     key = key_hash.finalize()
     iv_hash = hashes.Hash(hashes.SHA256())
-    iv_hash.update(text_entry.get().encode())
+    iv_hash.update(encrypted_text)
     iv = iv_hash.finalize()[:16]
 
     # Apply PKCS#7 padding to the plaintext
     padder = padding.PKCS7(algorithms.AES.block_size).padder()
-    padded_text = padder.update(text) + padder.finalize()
+padded_text = padder.update(text) + padder.finalize()
+# Encrypt the text using the key and IV
+cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
+encryptor = cipher.encryptor()
+encrypted_text = encryptor.update(padded_text) + encryptor.finalize()
 
-    # Encrypt the text using the key and IV
-    cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
-    encryptor = cipher.encryptor()
-    encrypted_text = encryptor.update(padded_text) + encryptor.finalize()
-
-    # Display the encrypted text to the user
-    output_label.config(text=f"Encrypted text: {encrypted_text}")
-# Function to decrypt the text using AES
+# Display the encrypted text to the user
+output_label.config(text=f"Encrypted text: {encrypted_text}")
+#Function to decrypt the text using AES
 def aes_decrypt():
-# Get the text and key from the user input
+    # Get the text and key from the user input
     text = text_entry.get().encode()
     key = key_entry.get().encode()
+    # Generate a key and IV for AES decryption
+    key_hash = hashes.Hash(hashes.SHA256())
+    key_hash.update(key)
+    key = key_hash.finalize()
+    iv_hash = hashes.Hash(hashes.SHA256())
+    iv_hash.update(text)
+    iv = iv_hash.finalize()[:16]
 
-
-# Generate a key and IV for AES decryption
-    key = hashes.Hash(hashes.SHA256())
-    key.update(key_entry.get().encode())
-    key = key.finalize()
-    iv = hashes.Hash(hashes.SHA256())
-    iv.update(text_entry.get().encode())
-    iv = iv.finalize()[:16]
-
-# Decrypt the text using the key and IV
+    # Decrypt the text using the key and IV
     cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
     decryptor = cipher.decryptor()
     decrypted_text = decryptor.update(text) + decryptor.finalize()
 
-# Remove the PKCS#7 padding from the decrypted plaintext
+    # Remove the PKCS#7 padding from the decrypted plaintext
     unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
     unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
 
-# Display the decrypted text to the user
+    # Display the decrypted text to the user
     output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
 #Create a label to display the output
-output_label = tk.Label(window, text="")
-output_label.pack()
+    output_label = tk.Label(window, text="")
+    output_label.pack()
 
 #Create a button to encrypt the text
-encrypt_button = tk.Button(window, text="Encrypt", command=encrypt)
+encrypt_button = tk.Button(window, text="Encrypt", command=aes_encrypt)
 encrypt_button.pack()
 #Create a button to decrypt the text
-decrypt_button = tk.Button(window, text="Decrypt", command=decrypt)
+decrypt_button = tk.Button(window, text="Decrypt", command=aes_decrypt)
 decrypt_button.pack()
 
 #Run the tkinter event loop
