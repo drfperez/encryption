@@ -34,10 +34,9 @@ def decrypt(encrypted_message, key, random_num):
     decrypted_result = inverse_result ^ random_num
 
     # convert binary format back to string format
-    decrypted_message = ''.join(chr(int(decrypted_result[i:i+8], 2)) for i in range(0, len(decrypted_result), 8))
+    decrypted_message = ''.join(chr(int(decrypted_result[i:i+8], 2)) for i in range(0, len(bin(decrypted_result)[2:]), 8))
 
     return decrypted_message
-
 
 def main():
     message = input("Enter the plain text message: ")
