@@ -1,5 +1,6 @@
-import random
 import time
+import math
+import random 
 
 def encrypt(message, key):
     # convert message to binary format
@@ -24,16 +25,23 @@ def encrypt(message, key):
 
 
 def decrypt(encrypted_message, key, random_num):
+    # convert random_num to binary format
+    random_num_bin = bin(random_num)[2:]
+
+    # convert encrypted_message to integer format
+    encrypted_message_int = int(encrypted_message)
+
     # perform inverse modulo operation using the key
-    inverse_result = int(pow(encrypted_message, -1, key))
+    inverse_result = pow(encrypted_message_int, -1, key)
 
     # perform XOR operation with the same random number used for encryption
-    decrypted_result = inverse_result ^ random_num
+    xor_result = inverse_result ^ int(random_num_bin, 2)
 
     # convert binary format back to string format
-    decrypted_message = ''.join(chr(int(decrypted_result[i:i+8], 2)) for i in range(0, len(bin(decrypted_result))-2, 8))
+    decrypted_message = ''.join(chr(int(xor_result[i:i+8], 2)) for i in range(0, len(bin(xor_result))-2, 8))
 
     return decrypted_message
+
 
 
 def main():
@@ -43,11 +51,11 @@ def main():
 
     if choice == 1:
         encrypted_message = encrypt(message, key)
-        print("Encrypted message: ", encrypted_message)
+        print("Encrypted message:", encrypted_message)
     elif choice == 2:
         random_num = int(input("Enter the random number used for encryption: "))
         decrypted_message = decrypt(message, key, random_num)
-        print("Decrypted message: ", decrypted_message)
+        print("Decrypted message:", decrypted_message)
     else:
         print("Invalid choice. Please enter 1 to encrypt or 2 to decrypt.")
 
