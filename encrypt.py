@@ -78,7 +78,7 @@ def aes_encrypt():
     key_hash.update(key)
     key = key_hash.finalize()
     iv_hash = hashes.Hash(hashes.SHA256())
-    iv_hash.update(encrypted_text)
+    iv_hash.update(text)
     iv = iv_hash.finalize()[:16]
 
     # Apply PKCS#7 padding to the plaintext
