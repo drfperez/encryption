@@ -83,14 +83,14 @@ def aes_encrypt():
 
     # Apply PKCS#7 padding to the plaintext
     padder = padding.PKCS7(algorithms.AES.block_size).padder()
-padded_text = padder.update(text) + padder.finalize()
-# Encrypt the text using the key and IV
-cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
-encryptor = cipher.encryptor()
-encrypted_text = encryptor.update(padded_text) + encryptor.finalize()
+    padded_text = padder.update(text) + padder.finalize()
+    # Encrypt the text using the key and IV
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
+    encryptor = cipher.encryptor()
+    encrypted_text = encryptor.update(padded_text) + encryptor.finalize()
 
-# Display the encrypted text to the user
-output_label.config(text=f"Encrypted text: {encrypted_text}")
+    # Display the encrypted text to the user
+    output_label.config(text=f"Encrypted text: {encrypted_text}")
 #Function to decrypt the text using AES
 def aes_decrypt():
     # Get the text and key from the user input
@@ -115,9 +115,10 @@ def aes_decrypt():
 
     # Display the decrypted text to the user
     output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
+
 #Create a label to display the output
-    output_label = tk.Label(window, text="")
-    output_label.pack()
+output_label = tk.Label(window, text="")
+output_label.pack()
 
 #Create a button to encrypt the text
 encrypt_button = tk.Button(window, text="Encrypt", command=aes_encrypt)
