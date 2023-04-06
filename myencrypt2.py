@@ -35,6 +35,7 @@ def decrypt(encrypted_message, key, random_num):
 
     return decrypted_message
 
+
 def main():
     message = input("Enter the plain text message: ")
     key = int(input("Enter the key: "))
