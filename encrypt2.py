@@ -1,4 +1,4 @@
-Lofrom cryptography.fernet import Fernet
+from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import hashes, padding
 import tkinter as tk
