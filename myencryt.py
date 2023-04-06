@@ -1,5 +1,15 @@
-# Online Python compiler (interpreter) to run Python .
-# Write Python 3 code in this online editor and run it.
+''' New encryption algorithm for educational purposes created by professor Francisco Pérez
+The objective of the algorithm is to encrypt and decrypt a plain text message using a user-provided key and a random number generated using the system time and the key. The algorithm works by converting the plain text message to binary format and generating a random number using the user key and the current system time. The algorithm then performs an XOR operation between the binary message and the random number, and then performs a modulo operation using the user-provided key to generate the encrypted message.
+
+To decrypt the message, the algorithm first performs an inverse modulo operation to get the original XOR result. It then performs an XOR operation between the XOR result and the same random number used for encryption, and then converts the binary format of the decrypted result back to string format.
+
+The algorithm ensures that the random number generated for encryption is unique by using the user key and the current system time as the seed for the random number generator. This ensures that even if the same message is encrypted multiple times using the same key, the encrypted message will be different each time due to the use of a different random number generated using the current system time. The user must also provide the same random number used for encryption to decrypt the message, which ensures that only the person who knows the random number can decrypt the message.
+
+
+
+
+
+
 import random
 import time
 
