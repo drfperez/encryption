@@ -2,6 +2,7 @@ import time
 import math
 import random 
 
+
 def encrypt(message, key):
     # convert message to binary format
     message_bin = ''.join(format(ord(c), '08b') for c in message)
