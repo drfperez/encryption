@@ -24,17 +24,14 @@ def encrypt(message, key):
 
 
 def decrypt(encrypted_message, key, random_num):
-    # convert the encrypted message to an integer
-    encrypted_message = int(encrypted_message)
-
     # perform inverse modulo operation using the key
-    inverse_result = encrypted_message ** -1 % key
+    inverse_result = int(pow(encrypted_message, -1, key))
 
     # perform XOR operation with the same random number used for encryption
     decrypted_result = inverse_result ^ random_num
 
     # convert binary format back to string format
-    decrypted_message = ''.join(chr(int(decrypted_result[i:i+8], 2)) for i in range(0, len(bin(decrypted_result)[2:]), 8))
+    decrypted_message = ''.join(chr(int(decrypted_result[i:i+8], 2)) for i in range(0, len(bin(decrypted_result))-2, 8))
 
     return decrypted_message
 
