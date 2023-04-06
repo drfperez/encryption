@@ -33,6 +33,10 @@ algorithm_dropdown = ttk.Combobox(window, textvariable=algorithm_var,
                                   values=["Fernet", "AES", "TripleDES", "Blowfish", "ChaCha20"])
 algorithm_dropdown.pack()
 
+# Create a label to display the output
+output_label = tk.Label(window)
+output_label.pack()
+
 # Function to encrypt the text using Fernet
 def fernet_encrypt():
     # Get the text and key from the user input
@@ -70,12 +74,12 @@ def aes_encrypt():
     key = key_entry.get().encode()
 
     # Generate a key and IV for AES encryption
-    key = hashes.Hash(hashes.SHA256())
-    key.update(key_entry.get().encode())
-    key = key.finalize()
-    iv = hashes.Hash(hashes.SHA256())
-    iv.update(text_entry.get().encode())
-    iv = iv.finalize()[:16]
+    key_hash = hashes.Hash(hashes.SHA256())
+    key_hash.update(key_entry.get().encode())
+    key = key_hash.finalize()
+    iv_hash = hashes.Hash(hashes.SHA256())
+    iv_hash.update(text_entry.get().encode())
+    iv = iv_hash.finalize()[:16]
 
     # Apply PKCS#7 padding to the plaintext
     padder = padding.PKCS7(algorithms.AES.block_size).padder()
@@ -88,7 +92,6 @@ def aes_encrypt():
 
     # Display the encrypted text to the user
     output_label.config(text=f"Encrypted text: {encrypted_text}")
-
 # Function to decrypt the text using AES
 def aes_decrypt():
 # Get the text and key from the user input
@@ -115,181 +118,16 @@ def aes_decrypt():
 
 # Display the decrypted text to the user
     output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
-# Function to encrypt the text using TripleDES
-def tripledes_encrypt():
-# Get the text and key from the user input
-    text = text_entry.get().encode()
-    key = key_entry.get().encode()
-
-
-# Generate a key and IV for TripleDES encryption
-    key = hashes.Hash(hashes.SHA256())
-    key.update(key_entry.get().encode())
-    key = key.finalize()[:24]
-    iv = hashes.Hash(hashes.SHA256())
-    iv.update(text_entry.get().encode())
-    iv = iv.finalize()[:8]
-
-# Apply PKCS#7 padding to the plaintext
-    padder = padding.PKCS7(algorithms.TripleDES.block_size).padder()
-    padded_text = padder.update(text) + padder.finalize()
-
-# Encrypt the text using the key and IV
-    cipher = Cipher(algorithms.TripleDES(key), modes.CBC(iv))
-    encryptor = cipher.encryptor()
-    encrypted_text = encryptor.update(padded_text) + encryptor.finalize()
-
-# Display the encrypted text to the user
-    output_label.config(text=f"Encrypted text: {encrypted_text}")
-#Function to decrypt the text using TripleDES
-def tripledes_decrypt():
-# Get the text and key from the user input
-    text = text_entry.get().encode()
-    key = key_entry.get().encode()
-
-# Generate a key and IV for TripleDES decryption
-    key = hashes.Hash(hashes.SHA256())
-    key.update(key_entry.get().encode())
-    key = key.finalize()[:24]
-    iv = hashes.Hash(hashes.SHA256())
-    iv.update(text_entry.get().encode())
-    iv = iv.finalize()[:8]
-
-# Decrypt the text using the key and IV
-    cipher = Cipher(algorithms.TripleDES(key), modes.CBC(iv))
-    decryptor = cipher.decryptor()
-    decrypted_text = decryptor.update(text) + decryptor.finalize()
-
-# Remove the PKCS#7 padding from the decrypted plaintext
-    unpadder = padding.PKCS7(algorithms.TripleDES.block_size).unpadder()
-    unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
-
-# Display the decrypted text to the user
-    output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
-#Function to encrypt the text using Blowfish
-
-
-def blowfish_encrypt():
-# Get the text and key from the user input
-    text = text_entry.get().encode()
-    key = key_entry.get().encode()
-
-# Generate a key and IV for Blowfish encryption
-    key = hashes.Hash(hashes.SHA256())
-    key.update(key_entry.get().encode())
-    key = key.finalize()[:16]
-    iv = hashes.Hash(hashes.SHA256())
-    iv.update(text_entry.get().encode())
-    iv = iv.finalize()[:8]
-
-# Apply PKCS#7 padding to the plaintext
-    padder = padding.PKCS7(algorithms.Blowfish.block_size).padder()
-    padded_text = padder.update(text) + padder.finalize()
-
-# Encrypt the text using the key and IV
-    cipher = Cipher(algorithms.Blowfish(key), modes.CBC(iv))
-    encryptor = cipher.encryptor()
-    encrypted_text = encryptor.update(padded_text) + encryptor.finalize()
-
-# Display the encrypted text to the user
-    output_label.config(text=f"Encrypted text: {encrypted_text}")
-#Function to decrypt the text using Blowfish
-def blowfish_decrypt():
-# Get the text and key from the user input
-    text = text_entry.get().encode()
-    key = key_entry.get().encode()
-
-
-# Generate a key and IV for Blowfish decryption
-    key = hashes.Hash(hashes.SHA256())
-    key.update(key_entry.get().encode())
-    key = key.finalize()[:16]
-    iv = hashes.Hash(hashes.SHA256())
-    iv.update(text_entry.get().encode())
-    iv = iv.finalize()[:8]
-
-# Decrypt the text using the key and IV
-    cipher = Cipher(algorithms.Blowfish(key), modes.CBC(iv))
-    decryptor = cipher.decryptor()
-    decrypted_text = decryptor.update(text) + decryptor.finalize()
-
-# Remove the PKCS#7 padding from the decrypted plaintext
-    unpadder = padding.PKCS7(algorithms.Blowfish.block_size).unpadder()
-    unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
-
-# Display the decrypted text to the user
-    output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
-
-
-# Decrypt the text using the key and IV
-    cipher = Cipher(algorithms.Blowfish(key), modes.CBC(iv))
-    decryptor = cipher.decryptor()
-    decrypted_text = decryptor.update(text) + decryptor.finalize()
-
-# Remove the PKCS#7 padding from the decrypted plaintext
-    unpadder = padding.PKCS7(algorithms.Blowfish.block_size).unpadder()
-    unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
-
-# Display the decrypted text to the user
-    output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
-
-#Generate a key and IV for Blowfish decryption
-    key = hashes.Hash(hashes.SHA256())
-    key.update(key_entry.get().encode())
-    key = key.finalize()[:16]
-    iv = hashes.Hash(hashes.SHA256())
-    iv.update(text_entry.get().encode())
-    iv = iv.finalize()[:8]
-
-#Decrypt the text using the key and IV
-    cipher = Cipher(algorithms.Blowfish(key), modes.CBC(iv))
-    decryptor = cipher.decryptor()
-    decrypted_text = decryptor.update(text) + decryptor.finalize()
-
-#Remove the PKCS#7 padding from the decrypted plaintext
-    unpadder = padding.PKCS7(algorithms.Blowfish.block_size).unpadder()
-    unpadded_text = unpadder.update(decrypted_text) + unpadder.finalize()
-
-#Display the decrypted text to the user
-    output_label.config(text=f"Decrypted text: {unpadded_text.decode()}")
-
-#Create a Tkinter window
-window = Tk()
-window.title("Text Encryption and Decryption")
-window.geometry("400x400")
-
-#Create a label for the text entry
-text_label = Label(window, text="Enter text:")
-text_label.pack()
-
-#Create a text entry field for the user to enter the text
-text_entry = Entry(window, width=50)
-text_entry.pack()
-
-#Create a label for the key entry
-key_label = Label(window, text="Enter key:")
-key_label.pack()
-
-#Create a text entry field for the user to enter the key
-key_entry = Entry(window, width=50)
-key_entry.pack()
-
-#Create a label for the output
-output_label = Label(window, text="")
+#Create a label to display the output
+output_label = tk.Label(window, text="")
 output_label.pack()
 
-#Create a dropdown menu to select the algorithm
-algorithm_options = ["AES", "Blowfish"]
-algorithm_var = StringVar(window)
-algorithm_var.set(algorithm_options[0])
-algorithm_menu = OptionMenu(window, algorithm_var, *algorithm_options)
-algorithm_menu.pack()
-
-#Create buttons to encrypt and decrypt the text
-encrypt_button = Button(window, text="Encrypt", command=encrypt_text)
+#Create a button to encrypt the text
+encrypt_button = tk.Button(window, text="Encrypt", command=encrypt)
 encrypt_button.pack()
-decrypt_button = Button(window, text="Decrypt", command=decrypt_text)
+#Create a button to decrypt the text
+decrypt_button = tk.Button(window, text="Decrypt", command=decrypt)
 decrypt_button.pack()
 
-#Run the Tkinter main loop
+#Run the tkinter event loop
 window.mainloop()
