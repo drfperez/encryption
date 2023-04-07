@@ -1,43 +1,84 @@
-import string
+import base64
 
 def encrypt(plaintext, key):
-    ciphertext = ""
-    for i, c in enumerate(plaintext):
-        shift = string.ascii_lowercase.index(key[i])
-        ciphertext += chr((ord(c) - 97 + shift) % 26 + 97)
+    if len(key) < len(plaintext):
+        raise ValueError("Error: Key must be at least as long as the plaintext.")
+    
+    # Convert the plaintext and key to byte strings
+    plaintext_bytes = plaintext.encode('utf-8')
+    key_bytes = key.encode('utf-8')
+    
+    # Perform XOR between the plaintext and key
+    ciphertext_bytes = bytes([plaintext_bytes[i] ^ key_bytes[i] for i in range(len(plaintext_bytes))])
+    
+    # Encode the resulting byte string as base64 for printing purposes
+    ciphertext = base64.b64encode(ciphertext_bytes).decode('utf-8')
+    
+    # Print intermediate steps and calculations
+    print(f"Plaintext: {plaintext}")
+    print(f"Plaintext bytes: {list(plaintext_bytes)}")
+    print(f"Key: {key}")
+    print(f"Key bytes: {list(key_bytes)}")
+    print(f"Plaintext XOR Key: {list(ciphertext_bytes)}")
+    print(f"Ciphertext: {ciphertext}")
+    
     return ciphertext
 
 def decrypt(ciphertext, key):
-    plaintext = ""
-    for i, c in enumerate(ciphertext):
-        shift = string.ascii_lowercase.index(key[i])
-        plaintext += chr((ord(c) - 97 - shift) % 26 + 97)
+    if len(key) < len(ciphertext):
+        raise ValueError("Error: Key must be at least as long as the ciphertext.")
+    
+    # Convert the ciphertext and key to byte strings
+    ciphertext_bytes = base64.b64decode(ciphertext.encode('utf-8'))
+    key_bytes = key.encode('utf-8')
+    
+    # Perform XOR between the ciphertext and key
+    plaintext_bytes = bytes([ciphertext_bytes[i] ^ key_bytes[i] for i in range(len(ciphertext_bytes))])
+    
+    # Decode the resulting byte string as UTF-8 for printing purposes
+    plaintext = plaintext_bytes.decode('utf-8')
+    
+    # Print intermediate steps and calculations
+    print(f"Ciphertext: {ciphertext}")
+    print(f"Ciphertext bytes: {list(ciphertext_bytes)}")
+    print(f"Key: {key}")
+    print(f"Key bytes: {list(key_bytes)}")
+    print(f"Ciphertext XOR Key: {list(plaintext_bytes)}")
+    print(f"Plaintext: {plaintext}")
+    
     return plaintext
 
 def main():
     while True:
-        print("1. Encrypt")
+        print("\n1. Encrypt")
         print("2. Decrypt")
         print("3. Exit")
-        choice = int(input("Enter choice (1, 2, or 3): "))
-        if choice == 1:
+        
+        choice = input("Enter choice (1, 2, or 3): ")
+        
+        if choice == "1":
             plaintext = input("Enter plaintext: ")
             key = input("Enter one-time pad key: ")
-            ciphertext = encrypt(plaintext, key)
-            print("Plaintext: ", plaintext)
-            print("Key: ", key)
-            print("Ciphertext: ", ciphertext)
-        elif choice == 2:
+            
+            try:
+                ciphertext = encrypt(plaintext, key)
+            except ValueError as e:
+                print(f"Error: {str(e)}")
+                
+        elif choice == "2":
             ciphertext = input("Enter ciphertext: ")
             key = input("Enter one-time pad key: ")
-            plaintext = decrypt(ciphertext, key)
-            print("Ciphertext: ", ciphertext)
-            print("Key: ", key)
-            print("Plaintext: ", plaintext)
-        elif choice == 3:
+            
+            try:
+                plaintext = decrypt(ciphertext, key)
+            except ValueError as e:
+                print(f"Error: {str(e)}")
+                
+        elif choice == "3":
             break
+        
         else:
-            print("Invalid choice.")
+            print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
     main()
