@@ -25,8 +25,8 @@ def encrypt(plaintext, key):
     return ciphertext
 
 def decrypt(ciphertext, key):
-    if len(key) < len(ciphertext):
-        raise ValueError("Error: Key must be at least as long as the ciphertext.")
+    if len(key) != len(base64.b64decode(ciphertext)):
+        raise ValueError("Error: Key must be the same length as the ciphertext.")
     
     # Convert the ciphertext and key to byte strings
     ciphertext_bytes = base64.b64decode(ciphertext.encode('utf-8'))
